@@ -1,8 +1,12 @@
+package steps;
+
+import Data.CourierJson;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
+import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.*;
 
 public class CreateCourierSteps {
@@ -11,27 +15,7 @@ public class CreateCourierSteps {
 
     // Метод для создания курьера
     @Step("Создать курьера")
-    public Response createCourier(String login, String password, String firstName) {
-        CourierJson courierJson = new CourierJson(login, password, firstName);
-        return given()
-                .contentType(ContentType.JSON)
-                .body(courierJson)
-                .when()
-                .post(COURIER_PATH);
-    }
-
-    @Step("Создать курьера без поля логина")
-    public Response createCourierWithoutLogin(String password, String firstName) {
-        CourierJson courierJson = new CourierJson( null,password, firstName);
-        return given()
-                .contentType(ContentType.JSON)
-                .body(courierJson)
-                .when()
-                .post(COURIER_PATH);
-    }
-    @Step("Создать курьера без поля пароль")
-    public Response createCourierWithoutPassword(String login, String firstName) {
-        CourierJson courierJson = new CourierJson( login,null, firstName);
+    public Response createCourier(CourierJson courierJson) {
         return given()
                 .contentType(ContentType.JSON)
                 .body(courierJson)
@@ -41,15 +25,13 @@ public class CreateCourierSteps {
 
     // Метод для логина курьера и получения его ID
     @Step("Залогинить курьера с логином паролем и получить его ID")
-    public int loginCourierAndGetId(String login, String password) {
-        CourierJson courierLogin = new CourierJson(login, password, null);
+    public int loginCourierAndGetId(CourierJson courierJson) {
+
         Response response = given()
                 .contentType(ContentType.JSON)
-                .body(courierLogin)
+                .body(courierJson)
                 .when()
                 .post(COURIER_PATH + "login");
-
-        response.then().assertThat().statusCode(200);
         return response.jsonPath().getInt("id");
     }
 
@@ -60,8 +42,7 @@ public class CreateCourierSteps {
             given()
                     .contentType(ContentType.JSON)
                     .when()
-                    .delete(COURIER_PATH + courierId)
-                    .then().assertThat().statusCode(200);
+                    .delete(COURIER_PATH + courierId);
         }
     }
 

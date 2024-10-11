@@ -1,7 +1,13 @@
+package tests;
+
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import steps.ListOrdersSteps;
+
+import static org.apache.http.HttpStatus.*;
 
 public class ListOrdersTest {
 
@@ -24,6 +30,9 @@ public class ListOrdersTest {
     @Test
     @DisplayName("Получение списка заказов")
     public void listOrdersTest() {
-        listofOrders.getOrderList(courierId, nearestStation, limit, page);
+        Response responseOrders = listofOrders.getOrderList(courierId, nearestStation, limit, page);
+        listofOrders.compareResponseCode(responseOrders, SC_OK);
+        listofOrders.checkSuccessGetOrders(responseOrders);
+        listofOrders.checkOrdersSize(responseOrders);
     }
 }

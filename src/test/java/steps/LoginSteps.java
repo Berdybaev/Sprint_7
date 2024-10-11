@@ -1,7 +1,12 @@
+package steps;
+
+import Data.CourierJson;
+import Data.LoginJson;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -10,16 +15,11 @@ public class LoginSteps {
     public static final String COURIER_PATH = "/api/v1/courier/";
 
     @Step("Залогинить курьера с логином паролем и получить его ID")
-    public static Response loginCourierAndGetId(String login, String password) {
-        CourierJson courier = new CourierJson(login, password, null);
-        Response response = given()
+    public Response loginCourierAndGetId(CourierJson courierJson) {
+        return given()
                 .contentType(ContentType.JSON)
-                .body(courier)
-                .when()
-                .post(COURIER_PATH + "login");                ;
-
-        response.then().assertThat().statusCode(200);
-        return response;
+                .body(courierJson)
+                .post(COURIER_PATH + "login");
     }
 
     @Step("Удалить курьера с ID {courierId}")
@@ -27,42 +27,34 @@ public class LoginSteps {
         if (courierId != 0) {
             given()
                     .contentType(ContentType.JSON)
-                    .when()
-                    .delete(COURIER_PATH + courierId)
-                    .then().assertThat().statusCode(200);
+                    .delete(COURIER_PATH + courierId);
         }
     }
 
     @Step("Залогинить курьера с логином паролем и получить его ID")
-    public static Response loginCourier(String login, String password) {
-        LoginJson courierTest = new LoginJson(login, password);
-        Response response = given()
+    public Response loginCourier(LoginJson loginJson) {
+        return given()
                 .contentType(ContentType.JSON)
-                .body(courierTest)
-                .when()
-                .post(COURIER_PATH + "login");                ;
-        return response;
+                .body(loginJson)
+                .post(COURIER_PATH + "login");
     }
 
     @Description("Создать курьера")
-    public static Response createCourier(String login, String password, String firstName) {
-        CourierJson courier = new CourierJson(login, password, firstName);
+    public Response createCourier(CourierJson courierJson) {
         return given()
                 .contentType(ContentType.JSON)
-                .body(courier)
-                .when()
+                .body(courierJson)
                 .post(COURIER_PATH);
     }
 
-
     @Step("Проверить успешный код ответа")
-    public static void compareResponseCode(Response response, int expectedStatusCode) {
+    public void compareResponseCode(Response response, int expectedStatusCode) {
         response.then().assertThat().statusCode(expectedStatusCode);
     }
 
     @Step("Успешный запрос возвращает id: значение ")
     @Description("Шаг для проверки нужного ответа, пример id: 312546")
-    public static void checkSuccessResponse(Response response) {
+    public void checkSuccessResponse(Response response) {
         response.then().assertThat().body("id", notNullValue());
     }
 
