@@ -2,6 +2,7 @@ package steps;
 
 import Data.CourierJson;
 import Data.LoginJson;
+import baseurl.BaseAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
@@ -10,7 +11,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class LoginSteps {
+public class LoginSteps extends BaseAPI {
 
     public static final String COURIER_PATH = "/api/v1/courier/";
 

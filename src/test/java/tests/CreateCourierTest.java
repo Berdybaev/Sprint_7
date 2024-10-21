@@ -2,7 +2,6 @@ package tests;
 
 import Data.CourierJson;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +21,7 @@ public class CreateCourierTest {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+
         login = "Lio";
         password = "122333";
         firstName = "Tapolski";

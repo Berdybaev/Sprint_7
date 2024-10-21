@@ -20,7 +20,7 @@ public class ListOrdersTest {
     @Before
     public void setUp() {
         // Инициализация перед запуском тестов
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+
         courierId = 387417;  // Задаем ID курьера
         nearestStation = 3; // Задаем ID ближайшей станции
         limit = 30;  // Устанавливаем лимит на количество заказов

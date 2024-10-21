@@ -1,15 +1,15 @@
 package steps;
 
 import Data.CourierJson;
+import baseurl.BaseAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.*;
 
-public class CreateCourierSteps {
+public class CreateCourierSteps extends BaseAPI {
 
     public static final String COURIER_PATH = "/api/v1/courier/";
 

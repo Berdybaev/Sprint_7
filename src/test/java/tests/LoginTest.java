@@ -3,7 +3,6 @@ package tests;
 import Data.CourierJson;
 import Data.LoginJson;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class LoginTest {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+
     }
 
     @AfterClass
